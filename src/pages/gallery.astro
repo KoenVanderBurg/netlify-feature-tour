@@ -2,24 +2,72 @@
 import Layout from '../components/layout.astro';
 ---
 
+<style>
+/* Your existing styles... */
+/* Add new styles for the image gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gallery-item {
+  width: 30%; /* Each item will take up 30% of the container width to show 3 items in a row */
+  margin: 1rem; /* Add some spacing between the images */
+}
+
+.gallery-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.gallery-caption {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+</style>
+
 <Layout
   title="Cute images of Dewi" 
   description="See and appreciate these cute photos"
 >
-  
-</Layout>
 <main>
-  <div class="wrapper">
-    <img
-      src="/images/dewi1.jpeg"
-      alt="cute photo during Meerkat trip”"
-    />
+  <div class="gallery">
+    <!-- First image -->
+    <div class="gallery-item">
+      <img
+        class="gallery-img"
+        src="/images/dewi1.jpeg"
+        alt="cute photo during Meerkat trip"
+      />
+      <p class="gallery-caption">Meerkatten safari SA.</p>
+    </div>
 
-    <p>
-      <a >
-        Meerkatten safari SA.
-      </a>
-    </p>
+    <!-- Add more images here using the same structure -->
+    <!-- Example of second image -->
+    <div class="gallery-item">
+      <img
+        class="gallery-img"
+        src="/images/dewi2.jpeg"
+        alt="cute photo during Safari trip"
+      />
+      <p class="gallery-caption">Safari trip</p>
+    </div>
+
+    <!-- Example of third image -->
+    <div class="gallery-item">
+      <img
+        class="gallery-img"
+        src="/images/dewi3.jpeg"
+        alt="cute photo during Forest adventure"
+      />
+      <p class="gallery-caption">Forest adventure</p>
+    </div>
+
+    <!-- Add more images as needed -->
+
   </div>
 </main>
 </Layout>
