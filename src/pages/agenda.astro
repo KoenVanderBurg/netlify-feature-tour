@@ -1,47 +1,49 @@
 ---
 import Layout from '../components/layout.astro';
+const unavailableDays = ['2023-08-10', '2023-08-15', '2023-08-22'];
 ---
 
-<style>
-.wrapper {
-  display: block;
-  text-align: center;
-}
-</style>
 
 <Layout
-  title="Instant Rollbacks"
-  description="Make changes without fear of pager duty! Roll back to a previous deploy instantly with one click."
+  title="Koen's Agenda"
+  description="Make appointments with Koen without bothering to wait for a reaction!"
 >
 <main>
-  <h2>This is a Deploy Previews.</h2>
-  <ol>
-    <li>
-      Create a new branch in your repo called{' '}
-      <code>deploy-preview-test</code>.
-    </li>
-    <li>
-      Edit <code>pages/deploy-previews.js</code> to edit the headline “Try
-      out Deploy Previews.” so it reads, “This is a Deploy Preview!”
-    </li>
-    <li>Save the change, commit it, and push it to your GitHub repo.</li>
-    <li>
-      Open a pull request against the <code>main</code> branch from the{' '}
-      <code>deploy-preview-test</code> branch.
-    </li>
-    <li>
-      Visit <a href="https://app.netlify.com">app.netlify.com</a> —
-      Netlify will automatically build the Deploy Preview.
-    </li>
-    <li>
-      Once the site is done building, visit the generated URL to access your
-      changes!
-    </li>
-  </ol>
-  <p>
-    <a href="https://docs.netlify.com/site-deploys/deploy-previews/">
-      Learn about Deploy Previews in the Netlify docs.
-    </a>
-  </p>
+<h2>Pick a date here! </h2>
+
+
+  <calendar>
+    {#each generateDates() as date}
+      <day
+        {date}
+        class:unavailable={isUnavailable(date)}
+      >
+        {date.getDate()}
+      </day>
+    {/each}
+  </calendar>
+
 </main>
 </Layout>
+
+<script>
+  export function generateDates() {
+    const dates = [];
+    const today = new Date();
+    for (let i = 0; i < 30; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date);
+    }
+    return dates;
+  }
+
+  export function isUnavailable(date) {
+    const formattedDate = formatDate(date);
+    return unavailableDays.includes(formattedDate);
+  }
+
+  export function formatDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
+</script>
