@@ -49,18 +49,20 @@ import Layout from '../components/layout.astro';
 </style>
 
 <Layout
-  title="Netlify Forms"
-  description="Turn any HTML form into a functional form that can receive submissions with a single line of code."
+  title="Feedback Forms"
+  description="Any feedback is welcome!"
 >
   <main>
-    <h2 class="heading">Make this form functional</h2>
+    <h2 class="heading">Fill the form in here:</h2>
 
     <form
       class="form"
       method="POST"
       name="contact"
       action="/success"
+      data-netlify="true"
     >
+    
       <label htmlFor="name">Name</label>
       <input type="text" id="name" name="name" />
 
