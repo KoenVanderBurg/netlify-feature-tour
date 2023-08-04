@@ -1,8 +1,13 @@
 ---
 import Layout from '../components/layout.astro';
-const unavailableDays = ['2023-08-10', '2023-08-15', '2023-08-22'];
 ---
 
+<style>
+.wrapper {
+  display: block;
+  text-align: center;
+}
+</style>
 
 <Layout
   title="Koen's Agenda"
@@ -10,40 +15,5 @@ const unavailableDays = ['2023-08-10', '2023-08-15', '2023-08-22'];
 >
 <main>
 <h2>Pick a date here! </h2>
-
-
-  <calendar>
-    {#each generateDates() as date}
-      <day
-        {date}
-        class:unavailable={isUnavailable(date)}
-      >
-        {date.getDate()}
-      </day>
-    {/each}
-  </calendar>
-
-</main>
+<main>
 </Layout>
-
-<script>
-  export function generateDates() {
-    const dates = [];
-    const today = new Date();
-    for (let i = 0; i < 30; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push(date);
-    }
-    return dates;
-  }
-
-  export function isUnavailable(date) {
-    const formattedDate = formatDate(date);
-    return unavailableDays.includes(formattedDate);
-  }
-
-  export function formatDate(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  }
-</script>
