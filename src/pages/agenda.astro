@@ -1,5 +1,7 @@
+<!-- src/pages/agenda.astro -->
 ---
 import Layout from '../components/layout.astro';
+import AvailabilityIndicator from '../components/AvailabilityIndicator.svelte';
 ---
 
 <style>
@@ -9,11 +11,16 @@ import Layout from '../components/layout.astro';
 }
 </style>
 
+<script>
+  const busyDays = ['2023-08-15', '2023-08-20', '2023-08-25']; // Replace with actual busy days
+</script>
+
 <Layout
   title="Koen's Agenda"
   description="Make appointments with Koen without bothering to wait for a reaction!"
 >
 <main>
-<h2>Pick a date here! </h2>
-<main>
+  <h2>Pick a date here!</h2>
+  <AvailabilityIndicator busyDays={busyDays} />
+</main>
 </Layout>
