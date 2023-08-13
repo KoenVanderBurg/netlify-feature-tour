@@ -1,9 +1,48 @@
 ---
-import Layout from '../components/layout.astro';
-import { createSignal } from 'solid-js';
+layout: "/components/layout.astro"
 ---
 
-<style is:global>
+<main>
+  <section>
+    <h1>Agenda</h1>
+    <div class="calendar">
+      <input type="date" id="datePicker">
+      <button id="markUnavailable">Mark Unavailable</button>
+    </div>
+    <div class="unavailable-dates">
+      <!-- Display unavailable dates -->
+    </div>
+  </section>
+</main>
+
+<script>
+  const unavailableDates = new Set();
+
+  const datePicker = document.getElementById('datePicker');
+  const markUnavailableButton = document.getElementById('markUnavailable');
+  const unavailableDatesContainer = document.querySelector('.unavailable-dates');
+
+  markUnavailableButton.addEventListener('click', () => {
+    const selectedDate = datePicker.value;
+    if (selectedDate) {
+      unavailableDates.add(selectedDate);
+      updateUnavailableDates();
+    }
+  });
+
+  function updateUnavailableDates() {
+    unavailableDatesContainer.innerHTML = '';
+    for (const date of unavailableDates) {
+      const dateDiv = document.createElement('div');
+      dateDiv.classList.add('calendar-day', 'unavailable');
+      dateDiv.setAttribute('data-date', date);
+      dateDiv.textContent = date;
+      unavailableDatesContainer.appendChild(dateDiv);
+    }
+  }
+</script>
+
+<style>
 /* Your existing styles... */
 /* Add new styles for the agenda */
 .calendar {
@@ -27,38 +66,3 @@ import { createSignal } from 'solid-js';
   background-color: var(--highlight);
 }
 </style>
-
-<Layout
-  title="Agenda"
-  description="Manage your availability"
->
-<astro:script>
-  let [unavailableDates, setUnavailableDates] = createSignal([]);
-
-  function markUnavailable() {
-    const selectedDate = document.getElementById('datePicker').value;
-    if (selectedDate) {
-      setUnavailableDates([...unavailableDates(), selectedDate]);
-    }
-  }
-</astro:script>
-
-<astro:fragment>
-  <main>
-    <section>
-      <h1>Agenda</h1>
-      <div class="calendar">
-        <input type="date" id="datePicker" />
-        <button id="markUnavailable" on:click={markUnavailable}>Mark Unavailable</button>
-      </div>
-      <div>
-        {unavailableDates().map(date => (
-          <div class="calendar-day unavailable" data-date={date}>
-            {date}
-          </div>
-        ))}
-      </div>
-    </section>
-  </main>
-</astro:fragment>
-</Layout>
