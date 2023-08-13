@@ -1,25 +1,64 @@
 ---
 import Layout from '../components/layout.astro';
-import AvailabilityIndicator from '../components/AvailabilityIndicator.svelte';
+import { createSignal } from 'solid-js';
 ---
 
-<style>
-.wrapper {
-  display: block;
+<style is:global>
+/* Your existing styles... */
+/* Add new styles for the agenda */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.calendar-day {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
   text-align: center;
+  line-height: 2rem;
+  border: 1px solid var(--lightBorder);
+  cursor: pointer;
+}
+
+.calendar-day.unavailable {
+  background-color: var(--highlight);
 }
 </style>
 
-<script>
-  const busyDays : string[] = ['2023-08-15', '2023-08-20', '2023-08-25'];
-</script>
-
 <Layout
-  title="Koen's Agenda"
-  description="Make appointments with Koen without bothering to wait for a reaction!"
+  title="Agenda"
+  description="Manage your availability"
 >
-<main>
-  <h2>Pick a date here!</h2>
-  <AvailabilityIndicator busyDays={busyDays} />
-</main>
+<astro:script>
+  let [unavailableDates, setUnavailableDates] = createSignal([]);
+
+  function markUnavailable() {
+    const selectedDate = document.getElementById('datePicker').value;
+    if (selectedDate) {
+      setUnavailableDates([...unavailableDates(), selectedDate]);
+    }
+  }
+</astro:script>
+
+<astro:fragment>
+  <main>
+    <section>
+      <h1>Agenda</h1>
+      <div class="calendar">
+        <input type="date" id="datePicker" />
+        <button id="markUnavailable" on:click={markUnavailable}>Mark Unavailable</button>
+      </div>
+      <div>
+        {unavailableDates().map(date => (
+          <div class="calendar-day unavailable" data-date={date}>
+            {date}
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</astro:fragment>
 </Layout>
