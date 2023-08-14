@@ -18,7 +18,7 @@ layout: "/components/layout.astro"
 <script>
   const unavailableDates = new Set();
 
-  const datePicker = document.getElementById('datePicker');
+  const datePicker = document.getElementById('datePicker') as HTMLInputElement; // Specify the type
   const markUnavailableButton = document.getElementById('markUnavailable');
   const unavailableDatesContainer = document.querySelector('.unavailable-dates');
 
@@ -35,8 +35,8 @@ layout: "/components/layout.astro"
     for (const date of unavailableDates) {
       const dateDiv = document.createElement('div');
       dateDiv.classList.add('calendar-day', 'unavailable');
-      dateDiv.setAttribute('data-date', date);
-      dateDiv.textContent = date;
+      dateDiv.setAttribute('data-date', date as string);
+      dateDiv.textContent = String(date);
       unavailableDatesContainer.appendChild(dateDiv);
     }
   }
