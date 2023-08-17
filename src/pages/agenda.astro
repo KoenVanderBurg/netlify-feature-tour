@@ -18,7 +18,7 @@ layout: "/components/layout.astro"
 <script>
   const unavailableDates = new Set();
 
-  const datePicker = document.getElementById('datePicker') as HTMLInputElement; // Specify the type
+  const datePicker = document.getElementById('datePicker') as HTMLInputElement;
   const markUnavailableButton = document.getElementById('markUnavailable');
   const unavailableDatesContainer = document.querySelector('.unavailable-dates');
 
@@ -31,16 +31,24 @@ layout: "/components/layout.astro"
   });
 
   function updateUnavailableDates() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth(); // Get the current month (0-indexed)
+    
     unavailableDatesContainer.innerHTML = '';
     for (const date of unavailableDates) {
-      const dateDiv = document.createElement('div');
-      dateDiv.classList.add('calendar-day', 'unavailable');
-      dateDiv.setAttribute('data-date', date as string);
-      dateDiv.textContent = String(date);
-      unavailableDatesContainer.appendChild(dateDiv);
+      const [year, month, day] = date.split('-').map(Number);
+      if (Number(month) === currentMonth + 1) { // Months are 1-indexed in date strings
+        const dateDiv = document.createElement('div');
+        dateDiv.classList.add('calendar-day', 'unavailable');
+        dateDiv.setAttribute('data-date', date);
+        dateDiv.textContent = String(day);
+        unavailableDatesContainer.appendChild(dateDiv);
+      }
     }
   }
 </script>
+
+
 
 <style>
 /* Your existing styles... */
